@@ -180,17 +180,30 @@ async def draw_rectangle(x1: int, y1: int, x2: int, y2: int) -> dict:
             time.sleep(0.2)
         
         # Click on the Rectangle tool using the correct coordinates for secondary screen
-        paint_window.click_input(coords=(530, 82 ))
+        paint_window.click_input(coords=(797, 128 )) ## TODO: change for my screen
         time.sleep(0.2)
         
         # Get the canvas area
         canvas = paint_window.child_window(class_name='MSPaintView')
-        
-        # Draw rectangle - coordinates should already be relative to the Paint window
+
+        # Log canvas position and size for debugging
+        canvas_rect = canvas.rectangle()
+        print(f"Canvas Rectangle: {canvas_rect}")
+
+        # Draw rectangle - coordinates should be relative to the Paint window
         # No need to add primary_width since we're clicking within the Paint window
-        canvas.press_mouse_input(coords=(x1+2560, y1))
-        canvas.move_mouse_input(coords=(x2+2560, y2))
-        canvas.release_mouse_input(coords=(x2+2560, y2))
+        print(f"Clicking at: ({x1}, {y1})")
+        canvas.click_input(coords=(x1, y1))
+        time.sleep(0.1)
+
+        print(f"Pressing mouse at: ({x1}, {y1})")
+        canvas.press_mouse_input(coords=(x1, y1))
+        time.sleep(0.1)
+
+        print(f"Releasing mouse at: ({x2}, {y2})")
+        canvas.release_mouse_input(coords=(x2, y2))
+        time.sleep(0.1)
+
         
         return {
             "content": [
@@ -233,9 +246,9 @@ async def add_text_in_paint(text: str) -> dict:
             paint_window.set_focus()
             time.sleep(0.5)
         
-        # Click on the Rectangle tool
-        paint_window.click_input(coords=(528, 92))
-        time.sleep(0.5)
+        # # Click on the Rectangle tool
+        # paint_window.click_input(coords=(797, 128 )) ## TODO: Change co-ordinates for my screen 
+        # time.sleep(0.5) 
         
         # Get the canvas area
         canvas = paint_window.child_window(class_name='MSPaintView')
@@ -247,7 +260,7 @@ async def add_text_in_paint(text: str) -> dict:
         time.sleep(0.5)
         
         # Click where to start typing
-        canvas.click_input(coords=(810, 533))
+        canvas.click_input(coords=(975, 923))
         time.sleep(0.5)
         
         # Type the text passed from client
@@ -255,7 +268,7 @@ async def add_text_in_paint(text: str) -> dict:
         time.sleep(0.5)
         
         # Click to exit text mode
-        canvas.click_input(coords=(1050, 800))
+        canvas.click_input(coords=(1601, 999))
         
         return {
             "content": [
@@ -277,7 +290,7 @@ async def add_text_in_paint(text: str) -> dict:
 
 @mcp.tool()
 async def open_paint() -> dict:
-    """Open Microsoft Paint maximized on secondary monitor"""
+    """Open Microsoft Paint maximized on primary monitor"""
     global paint_app
     try:
         paint_app = Application().start('mspaint.exe')
@@ -289,14 +302,15 @@ async def open_paint() -> dict:
         # Get primary monitor width
         primary_width = GetSystemMetrics(0)
         
-        # First move to secondary monitor without specifying size
-        win32gui.SetWindowPos(
-            paint_window.handle,
-            win32con.HWND_TOP,
-            primary_width + 1, 0,  # Position it on secondary monitor
-            0, 0,  # Let Windows handle the size
-            win32con.SWP_NOSIZE  # Don't change the size
-        )
+        # First move to primary monitor without specifying size
+        ## CHANGED this for my screen
+        # win32gui.SetWindowPos(
+        #     paint_window.handle,
+        #     win32con.HWND_TOP,
+        #     primary_width + 1, 0,  # Position it on primary monitor
+        #     0, 0,  # Let Windows handle the size
+        #     win32con.SWP_NOSIZE  # Don't change the size
+        # )
         
         # Now maximize the window
         win32gui.ShowWindow(paint_window.handle, win32con.SW_MAXIMIZE)
@@ -306,7 +320,7 @@ async def open_paint() -> dict:
             "content": [
                 TextContent(
                     type="text",
-                    text="Paint opened successfully on secondary monitor and maximized"
+                    text="Paint opened successfully on primary monitor and maximized"
                 )
             ]
         }

@@ -59,7 +59,7 @@ async def main():
         print("Establishing connection to MCP server...")
         server_params = StdioServerParameters(
             command="python",
-            args=["class_files/example2-3.py"]
+            args=["mcp_paint_app/example2-3.py"]
         )
 
         async with stdio_client(server_params) as (read, write):
@@ -142,7 +142,7 @@ async def main():
                 DO NOT include any explanations or additional text.
                 Your entire response should be a single line starting with either FUNCTION_CALL: or FINAL_ANSWER:"""
 
-                query = """Find the ASCII values of characters in INDIA and then return sum of exponentials of those values. """
+                query = """Return the sum of first 5 Fibonacci numbers."""
                 print("Starting iteration loop...")
                 
                 # Use global iteration variables
@@ -275,13 +275,14 @@ async def main():
                         await asyncio.sleep(1)
 
                         # Draw a rectangle
+                        ## TODO: Change this for my screen
                         result = await session.call_tool(
                             "draw_rectangle",
                             arguments={
-                                "x1": 780,
-                                "y1": 380,
-                                "x2": 1140,
-                                "y2": 700
+                                "x1": 763, #780,
+                                "y1": 595, #380,
+                                "x2": 1788, #1140,
+                                "y2": 1123, #700
                             }
                         )
                         print(result.content[0].text)
