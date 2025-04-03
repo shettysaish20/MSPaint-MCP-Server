@@ -180,7 +180,7 @@ async def draw_rectangle(x1: int, y1: int, x2: int, y2: int) -> dict:
             time.sleep(0.2)
         
         # Click on the Rectangle tool using the correct coordinates for secondary screen
-        paint_window.click_input(coords=(797, 128 )) ## TODO: change for my screen
+        paint_window.click_input(coords=(797, 128 )) ##  change for my screen
         time.sleep(0.2)
         
         # Get the canvas area
@@ -247,7 +247,7 @@ async def add_text_in_paint(text: str) -> dict:
             time.sleep(0.5)
         
         # # Click on the Rectangle tool
-        # paint_window.click_input(coords=(797, 128 )) ## TODO: Change co-ordinates for my screen 
+        # paint_window.click_input(coords=(797, 128 )) ##  Change co-ordinates for my screen 
         # time.sleep(0.5) 
         
         # Get the canvas area
@@ -260,7 +260,7 @@ async def add_text_in_paint(text: str) -> dict:
         time.sleep(0.5)
         
         # Click where to start typing
-        canvas.click_input(coords=(975, 923))
+        canvas.click_input(coords=(1025, 923))
         time.sleep(0.5)
         
         # Type the text passed from client
